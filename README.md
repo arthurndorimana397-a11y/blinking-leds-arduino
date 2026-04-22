@@ -1,52 +1,92 @@
-int RED    = 13;
-int ORANGE = 12;
-int GREEN  = 11;
-int BLUE   = 10;
-int BUTTON = 2;
+# 4 LED Blinking Circuit with Push Button Toggle
 
-bool blinking = false;
-bool lastButtonState = LOW;
-bool ledState = LOW;
-unsigned long lastBlinkTime = 0;
-int blinkInterval = 500;
+A simple Arduino project built in TinkerCAD that controls 4 LEDs 
+using a push button toggle. Press once to start blinking, press 
+again to stop.
 
-void setup() {
-  pinMode(RED,    OUTPUT);
-  pinMode(ORANGE, OUTPUT);
-  pinMode(GREEN,  OUTPUT);
-  pinMode(BLUE,   OUTPUT);
-  pinMode(BUTTON, INPUT);
-}
+---
 
-void loop() {
-  // Check button every loop
-  bool currentButtonState = digitalRead(BUTTON);
-  if (currentButtonState == HIGH && lastButtonState == LOW) {
-    blinking = !blinking;  // Toggle
-    delay(0);             // Debounce
-    
-    // Immediately turn off LEDs when stopping
-    if (!blinking) {
-      digitalWrite(RED,    LOW);
-      digitalWrite(ORANGE, LOW);
-      digitalWrite(GREEN,  LOW);
-      digitalWrite(BLUE,   LOW);
-      ledState = LOW;
-    }
-  }
-  lastButtonState = currentButtonState;
+## 🔧 Components
 
-  // Non-blocking blink using millis()
-  if (blinking) {
-    unsigned long currentTime = millis();
-    if (currentTime - lastBlinkTime >= blinkInterval) {
-      lastBlinkTime = currentTime;
-      ledState = !ledState;  // Toggle LED state
-      
-      digitalWrite(RED,    ledState);
-      digitalWrite(ORANGE, ledState);
-      digitalWrite(GREEN,  ledState);
-      digitalWrite(BLUE,   ledState);
-    }
-  }
-}
+| Component | Quantity |
+|-----------|----------|
+| Arduino Uno | 1 |
+| LEDs (Red, Orange, Green, Blue) | 4 |
+| 220Ω Resistors | 4 |
+| Push Button | 1 |
+| 10kΩ Resistor (pull-down) | 1 |
+| Breadboard | 1 |
+| Jumper Wires | Several |
+
+---
+
+## 📌 Pin Connections
+
+| Component | Arduino Pin |
+|-----------|-------------|
+| Red LED | 13 |
+| Orange LED | 12 |
+| Green LED | 11 |
+| Blue LED | 10 |
+| Push Button | 2 |
+
+---
+
+## ⚡ How It Works
+
+- Press the button **once** → all 4 LEDs start blinking
+- Press the button **again** → all 4 LEDs stop
+- Uses `millis()` instead of `delay()` so the button is 
+  always responsive
+
+---
+
+## 🔌 Circuit Wiring
+
+**LEDs:**
+- Anode (long leg) → 220Ω resistor → Arduino pin
+- Cathode (short leg) → GND rail
+
+**Push Button:**
+- Top-left leg → Arduino Pin 2
+- Bottom-left leg → 5V
+- Top-left leg row → 10kΩ resistor → GND
+
+---
+
+## 💻 Code
+
+The main sketch is in `blinking_leds.ino`
+
+Key concepts used:
+- `pinMode()` — set pins as INPUT/OUTPUT
+- `digitalWrite()` — turn LEDs on/off
+- `digitalRead()` — read button state
+- `millis()` — non-blocking timer for blinking
+- Boolean toggle — tracks blinking state
+
+---
+
+## 🖥️ TinkerCAD Simulation
+
+
+
+---
+
+## 📸 Screenshot
+
+![Circuit Screenshot](screenshot.png)
+
+---
+
+## 👤 Author
+
+**Arthur NDORIMANA**  
+CSA Student — Embedded Systems  
+GitHub: [arthurndorimana397-a11y](https://github.com/arthurndorimana397-a11y)
+
+---
+
+## 📄 License
+
+This project is open source and free to use.
